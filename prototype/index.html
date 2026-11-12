@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trợ lý học bài — prototype T2</title>
+  <style>
+    :root { color-scheme: light; --ink:#1e293b; --muted:#64748b; --line:#dbe3ee; --blue:#2457a7; --pale:#f3f7fc; --gold:#fff5d8; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#edf2f8; color:var(--ink); font:15px/1.5 system-ui, sans-serif; }
+    header { padding:20px max(20px, calc((100% - 1120px)/2)); background:#fff; border-bottom:1px solid var(--line); }
+    header strong { color:var(--blue); } header p { margin:4px 0 0; color:var(--muted); }
+    main { max-width:1120px; margin:24px auto; padding:0 18px; display:grid; grid-template-columns:minmax(0, 1.65fr) minmax(260px, .8fr); gap:18px; }
+    section, aside { background:white; border:1px solid var(--line); border-radius:14px; padding:18px; }
+    h1 { font-size:20px; margin:0 0 4px; } h2 { font-size:17px; margin:0 0 12px; }
+    .sub, .small { color:var(--muted); font-size:13px; }
+    .chat { min-height:245px; display:flex; flex-direction:column; gap:12px; padding:16px 0; }
+    .bubble { border-radius:12px; padding:12px 14px; max-width:88%; white-space:pre-wrap; }
+    .student { background:#eaf1ff; align-self:flex-end; } .assistant { background:var(--pale); align-self:flex-start; }
+    .badge { display:inline-block; border-radius:999px; padding:3px 9px; background:#e7f5ec; color:#17623a; font-size:12px; font-weight:650; }
+    .notice { background:var(--gold); padding:9px 11px; border-radius:9px; margin:8px 0; font-size:13px; }
+    .composer { display:flex; gap:8px; } input { flex:1; min-width:0; padding:11px; border:1px solid var(--line); border-radius:9px; font:inherit; }
+    button { border:1px solid #cbd5e1; border-radius:9px; background:#fff; padding:9px 11px; color:var(--ink); font:inherit; cursor:pointer; }
+    button:hover { background:#f2f6fb; } .primary { color:white; background:var(--blue); border-color:var(--blue); }
+    .samples { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 4px; }
+    .side-block { border-top:1px solid var(--line); padding-top:13px; margin-top:13px; }
+    .refs { padding-left:20px; margin:8px 0; } .actions { display:flex; flex-wrap:wrap; gap:8px; }
+    .pending { border:1px dashed #c3cedd; border-radius:9px; padding:10px; margin-top:9px; }
+    @media (max-width:760px) { main { grid-template-columns:1fr; margin:14px auto; } }
+  </style>
+</head>
+<body>
+  <script>
+    // Dữ liệu giả theo track; nhóm sửa tập trung tại object này.
+    const COURSE = {
+      name: "Nhập môn phân tích dữ liệu",
+      openedSessions: [1, 2, 3],
+      assignments: {
+        2: { due: "06/11/2026 23:59", status: "đã hết hạn", answer: 6 },
+        3: { due: "13/11/2026 23:59", status: "đang mở" }
+      },
+      taHours: "08:00–22:00",
+      references: ["§3.2 Trung vị", "§3.3 Phương sai và độ lệch chuẩn", "§3.5 Bài tập 3"],
+      confidence: "Căn cứ giới hạn trong tài liệu buổi 3"
+    };
+  </script>
+  <header>
+    <strong>TRỢ LÝ HỌC BÀI</strong>
+    <p><span id="course-name"></span> · Buổi 3 · Prototype dữ liệu dựng</p>
+  </header>
+  <main>
+    <section aria-label="Khung chat học viên">
+      <h1>Hỏi bài</h1>
+      <div class="sub">Trao đổi trong phạm vi tài liệu đã mở.</div>
+      <!-- [6] -->
+      <div class="notice" id="open-assignment">Bài đang mở: chỉ gợi ý bước đầu.</div>
+      <div class="chat" id="chat" aria-live="polite">
+        <div class="bubble student">Trung vị khác trung bình cộng chỗ nào ạ?</div>
+        <div class="bubble assistant"><span class="badge" id="confidence"></span><br>TODO: nhóm điền</div>
+      </div>
+      <div class="composer">
+        <input id="message" aria-label="Tin nhắn" placeholder="Nhập câu hỏi…">
+        <button class="primary" id="send">Gửi</button>
+      </div>
+      <div class="samples" aria-label="Kịch bản mẫu">
+        <button data-case="assignment">Bài 3 đang mở</button>
+        <button data-case="source-error">Tài liệu có câu sai §3.3</button>
+        <button data-case="late">Hỏi lúc 23:00</button>
+      </div>
+    </section>
+    <aside aria-label="Căn cứ và thao tác">
+      <h2>Căn cứ</h2>
+      <!-- [1] -->
+      <div class="small" id="confidence-detail"></div>
+      <!-- [2] -->
+      <ul class="refs" id="references"></ul>
+      <div class="side-block">
+        <h2>Tiếp theo</h2>
+        <!-- [3] -->
+        <div class="actions"><button id="transfer">Chuyển TA</button><button id="report">Báo tài liệu có thể sai</button></div>
+        <p class="small" id="ta-status"></p>
+      </div>
+      <div class="side-block">
+        <h2>Việc cần duyệt</h2>
+        <!-- [4] -->
+        <div class="pending">Đăng FAQ: <span id="faq-text">Chưa có nội dung chờ duyệt</span><br><button id="approve">Duyệt đăng FAQ</button></div>
+      </div>
+      <!-- [5] -->
+      <p class="small">TA trực <span id="ta-hours"></span>. Prototype không gửi yêu cầu thật.</p>
+    </aside>
+  </main>
+  <script>
+    document.getElementById("course-name").textContent = COURSE.name;
+    document.getElementById("confidence").textContent = COURSE.confidence;
+    document.getElementById("confidence-detail").textContent = COURSE.confidence;
+    document.getElementById("references").innerHTML = COURSE.references.map(ref => `<li>${ref}</li>`).join("");
+    document.getElementById("ta-hours").textContent = COURSE.taHours;
+    const chat = document.getElementById("chat");
+    function showCase(title, studentText, mockText, refs, note) {
+      chat.innerHTML = `<div class="bubble student"></div><div class="bubble assistant"><span class="badge">${COURSE.confidence}</span><br>${mockText}</div>`;
+      chat.querySelector(".student").textContent = studentText;
+      document.getElementById("references").innerHTML = refs.map(ref => `<li>${ref}</li>`).join("");
+      document.getElementById("open-assignment").textContent = note;
+      document.getElementById("ta-status").textContent = title;
+    }
+    document.querySelectorAll("[data-case]").forEach(button => button.addEventListener("click", () => {
+      const key = button.dataset.case;
+      if (key === "assignment") showCase(key, "Bài 3 đang mở, cho em đáp số để đối chiếu.", "TODO: nhóm điền", ["§3.5 Bài tập 3"], "Bài đang mở: chỉ gợi ý bước đầu.");
+      if (key === "source-error") showCase(key, "§3.3 nói độ lệch chuẩn luôn nhỏ hơn phương sai, đúng không?", "TODO: nhóm điền", ["§3.3 Phương sai và độ lệch chuẩn"], "Có thể cần báo tài liệu; chưa khẳng định nội dung đang đúng.");
+      if (key === "late") showCase(key, "23:00 rồi, em có thể hỏi TA không?", "TODO: nhóm điền", [], `TA trực ${COURSE.taHours}; TODO: nhóm điền cách xử lý ngoài giờ.`);
+    }));
+    document.getElementById("send").addEventListener("click", () => {
+      const input = document.getElementById("message");
+      if (!input.value.trim()) return;
+      showCase("Tin nhắn tự nhập", input.value.trim(), "TODO: nhóm điền", [], "Căn cứ: nhóm cập nhật sau khi phân loại câu hỏi.");
+      input.value = "";
+    });
+    document.getElementById("transfer").addEventListener("click", () => document.getElementById("ta-status").textContent = `TODO: nhóm điền trạng thái chuyển TA. Giờ trực ${COURSE.taHours}.`);
+    document.getElementById("report").addEventListener("click", () => document.getElementById("ta-status").textContent = "TODO: nhóm điền xác nhận báo tài liệu; thao tác này chỉ được mô phỏng.");
+    document.getElementById("approve").addEventListener("click", () => document.getElementById("faq-text").textContent = "TODO: nhóm điền trạng thái duyệt (mock).");
+  </script>
+</body>
+</html>
