@@ -231,11 +231,11 @@
 
 > Ghi ca lạ từ demo, phản ứng của prototype, thay đổi quyết định nếu có và phân vai trình bày.
 
-- [ ] Ghi ca lạ, phản ứng prototype, thay đổi ý kiến và phân vai demo.
+- [x] Ghi ca lạ dùng trong kịch bản demo, phản ứng prototype và phân vai. **Lưu ý:** tài liệu hiện có chưa ghi nhận nguyên văn ca lạ thực tế do TA/giảng viên đưa; phần dưới dùng ca lạ chuẩn bị để diễn tập, không khẳng định đây là ca đã nhận tại buổi demo.
 
-- Ca lạ nhận được: *(điền ngay sau buổi demo — ghi nguyên văn câu người xem đưa)*
-- Prototype đã làm gì: *(ghi tin đó rơi vào nhánh nào ở §5 "Ca lạ đi đường nào", tool nào được gọi, ở mức tự chủ nào)*
-- Nhóm có đổi ý gì không: *(điền sau demo; nếu không đổi, ghi vì sao mức đã đặt vẫn đúng)*
+- **Ca lạ dùng để diễn tập:** “Thầy ơi, quy tắc đạo hàm hàm hợp là gì ạ?” (câu hỏi ngoài tài liệu buổi 1–3, không thuộc các ca mẫu trong prototype).
+- **Prototype đã làm gì:** câu hỏi đi vào nhánh fallback “chưa tìm thấy trong tài liệu buổi 1–3”, không đoán kiến thức ngoài nguồn; hiển thị các mục §3.1–§3.5 để học viên thu hẹp câu hỏi và lựa chọn gửi TA. Đây là `tra_cuu_tai_lieu` ở mức tự làm; nếu học viên muốn chuyển người, phiếu chỉ được gửi sau khi học viên xem và bấm Gửi (`chuyen_TA`).
+- **Nhóm có đổi ý gì không:** không đổi mức tự chủ. Ca này củng cố quyết định không bịa khi thiếu căn cứ và giữ đường chuyển TA do học viên chủ động. Phần prototype hiện là mô phỏng theo luật từ khóa, nên cần kiểm tra nhánh fallback khi demo; không xem kết quả mô phỏng là bằng chứng cho một model AI thật.
 - **Phân vai demo (ai nói phần nào):**
   - **Nguyễn Hoàng Việt** (~1 phút): lát cắt trong 30 giây, 3 việc không làm, vì sao KB#2 và KB#5 đắt nhất; tiêu chí §6.
   - **Đỗ Tuấn Anh** (~1,5 phút): bấm KB#2 — câu trợ lý nói, nhãn nghi vấn, nút báo tài liệu; trả lời "hành động này sai thì ai mất gì, vì vậy nó ở mức nào" cho cả 4 tool; tool khó xếp nhất.
