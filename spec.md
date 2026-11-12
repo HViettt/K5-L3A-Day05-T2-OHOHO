@@ -54,35 +54,57 @@
 
 > Với hai kịch bản đắt nhất, ghi nguyên văn phản hồi, trạng thái người dùng, bước phục hồi, người được báo, quyết định và loại lỗi. Trỏ nguyên tắc HAX/PAIR vào chỗ thiết kế cụ thể.
 
-- [ ] Hoàn thành các trường cho cả hai kịch bản đắt nhất.
-- [ ] Nêu 2–3 nguyên tắc HAX/PAIR gắn với chỗ cụ thể.
-- [ ] Nêu một lỗi câu chữ không đủ cứu và cách thiết kế phục hồi.
+- [x] Hoàn thành các trường cho cả hai kịch bản đắt nhất.
+- [x] Nêu 2–3 nguyên tắc HAX/PAIR gắn với chỗ cụ thể.
+- [x] Nêu một lỗi câu chữ không đủ cứu và cách thiết kế phục hồi.
 
-**Kịch bản đắt nhất #1: <nhóm điền số kịch bản>**
+**Kịch bản đắt nhất #1: Kịch bản #2 (Tài liệu §3.3 có định lý sai)**
 
-- AI nói gì (nguyên văn): <nhóm điền>
-- Người dùng thấy gì: <nhóm điền>
-- Làm gì tiếp: <nhóm điền>
-- Ai được báo, sau bao lâu: <nhóm điền>
-- Quyết định (hỏi lại / trả lời kèm giới hạn / chuyển người); phương án đã loại và vì sao: <nhóm điền>
-- Loại lỗi (hệ thống / người dùng / ngữ cảnh) và vì sao: <nhóm điền>
+- **AI nói gì (nguyên văn):** "Khẳng định trong giáo trình mục §3.3 có thể chưa chính xác trong mọi trường hợp. Về mặt toán học: độ lệch chuẩn là căn bậc hai của phương sai, nên khi phương sai nhỏ hơn 1 (ví dụ phương sai = 0.25 thì độ lệch chuẩn = 0.5), độ lệch chuẩn sẽ lớn hơn phương sai. Mình đã tạm gắn nhãn nghi vấn cho nội dung này. Bạn có thể bấm nút 'Báo tài liệu có thể sai' bên dưới để hệ thống chuyển thẳng phản ánh lên Giảng viên/TA xác minh nhé."
+- **Người dùng thấy gì:** 
+  - Khung chat hiển thị câu trả lời nguyên văn trên.
+  - Cột "Căn cứ" bên phải hiển thị mã mục `§3.3 Phương sai và độ lệch chuẩn` kèm huy hiệu cảnh báo màu vàng: `[Nghi vấn nội dung - Cần xác minh]`.
+  - Nút bấm hành động nhanh: `[Báo tài liệu có thể sai]` và nút `[Chuyển câu hỏi cho TA]`.
+- **Làm gì tiếp:** 
+  - Bấm `[Báo tài liệu có thể sai]` để gửi yêu cầu đính chính lên Giảng viên.
+  - Tự tin tiếp tục học bài với kiến thức toán đúng (phương sai < 1 thì độ lệch chuẩn lớn hơn) mà không bị ép tin vào giáo trình sai.
+  - Bấm `[Chuyển câu hỏi cho TA]` nếu vẫn còn thắc mắc sâu hơn.
+- **Ai được báo, sau bao lâu:** Giảng viên phụ trách học phần và TA trực ban nhận ticket cảnh báo nội dung lỗi tại mục §3.3 trong dashboard quản trị ngay lập tức (real-time).
+- **Quyết định (hỏi lại / trả lời kèm giới hạn / chuyển người); phương án đã loại và vì sao:**
+  - **Chọn:** *Trả lời kèm giới hạn (Graceful degradation / Answer with limitations)* — Đưa ra ngay phản ví dụ toán học cụ thể để giải tỏa bế tắc cho học viên lúc đêm muộn, nhưng không tự tiện sửa giáo trình gốc mà dẫn đường lui để học viên báo cáo giảng viên.
+  - **Loại "Hỏi lại":** Vì câu hỏi của học viên đã rất rõ ràng vào mệnh đề so sánh ở §3.3, hỏi lại chỉ làm kéo dài thời gian và thể hiện hệ thống né tránh.
+  - **Loại "Dừng và chuyển người ngay":** Lúc 23:00 không có ai trực, nếu ngắt ngang chuyển người thì học viên bị tắc nghẽn việc học suốt đêm trong khi một phản ví dụ toán học đơn giản có thể giải quyết ngay thắc mắc.
+- **Loại lỗi (hệ thống / người dùng / ngữ cảnh) và vì sao:** **Lỗi hệ thống / nội dung (System/Content Error)**. Nguyên nhân bắt nguồn từ lỗi sai có sẵn trong dữ liệu giáo trình đầu vào (§3.3), không phải lỗi do người dùng nhập sai hay hiểu nhầm ngữ cảnh. Do đó, AI không được xin lỗi kiểu "tôi chưa hiểu ý bạn", mà phải minh bạch thừa nhận nghi vấn đối chiếu giữa toán học và văn bản giáo trình.
 
-**Kịch bản đắt nhất #2: <nhóm điền số kịch bản>**
+**Kịch bản đắt nhất #2: Kịch bản #5 (Xin đáp số Bài tập 3 đang mở)**
 
-- AI nói gì (nguyên văn): <nhóm điền>
-- Người dùng thấy gì: <nhóm điền>
-- Làm gì tiếp: <nhóm điền>
-- Ai được báo, sau bao lâu: <nhóm điền>
-- Quyết định (hỏi lại / trả lời kèm giới hạn / chuyển người); phương án đã loại và vì sao: <nhóm điền>
-- Loại lỗi (hệ thống / người dùng / ngữ cảnh) và vì sao: <nhóm điền>
+- **AI nói gì (nguyên văn):** "Bài tập 3 hiện đang trong thời gian làm bài (hạn nộp đến 23:59 ngày 13/11/2026), nên theo quy định mình không thể xác nhận con số cụ thể hoặc đưa ra kết quả cuối cùng. Tuy nhiên, mình có thể gợi ý phương pháp: Bạn hãy quan sát kỹ dãy 8 mức lương trong §3.5 xem có giá trị nào khác biệt hẳn so với phần còn lại không (xem mục §3.4 về giá trị ngoại lai). Giá trị ngoại lai đó có kéo số trung bình lệch lên nhiều không? Bạn hãy so sánh xem giữa số trung bình và trung vị, con số nào phản ánh mức lương điển hình tốt hơn nhé!"
+- **Người dùng thấy gì:** 
+  - Dòng cảnh báo cố định màu vàng phía trên khung chat: `[Bài đang mở: chỉ gợi ý bước đầu, không xác nhận đáp án]`.
+  - Cột "Căn cứ" trích dẫn 2 mục liên quan: `§3.4 Giá trị ngoại lai` và `§3.5 Bài tập 3`.
+  - Các nút gợi ý bước tiếp theo: `[Xem lại định nghĩa ngoại lai §3.4]`, `[Gợi ý câu (b)]`.
+  - **Tuyệt đối không có nút nào cho phép xem đáp án hay xác nhận kết quả.**
+- **Làm gì tiếp:** 
+  - Học viên đọc câu hỏi gợi mở, tự tư duy câu (b) về tác động của số ngoại lai 45 triệu đến số trung bình (15.25) so với trung vị (11.5).
+  - Bấm vào nút `[Xem lại định nghĩa ngoại lai §3.4]` để ôn lại lý thuyết trước khi tự nộp bài.
+- **Ai được báo, sau bao lâu:** Không cần báo TA vì đây là luồng từ chối hợp lệ theo thiết kế (Expected Policy Enforcement). Hệ thống chỉ lưu log truy vấn của học viên để phục vụ thống kê sau này.
+- **Quyết định (hỏi lại / trả lời kèm giới hạn / chuyển người); phương án đã loại và vì sao:**
+- **Chọn:** *Trả lời kèm giới hạn (Scaffolded Guidance / Socratic Questioning)* — Từ chối đưa/xác nhận con số, nhưng gợi ý tư duy phương pháp luận theo từng bước để học viên tự làm bài.
+  - **Loại "Xác nhận thẳng / đưa đáp án":** Vi phạm nghiêm trọng đạo đức học thuật và quy chế thi cử; tool `goi_y_bai_tap` một khi đã phát ra đáp án thì không thể hoàn tác (không có nút undo trong đầu người học).
+  - **Loại "Từ chối thẳng thừng và dừng":** Khiến học viên nản chí, ức chế và có thể bỏ cuộc khi đang kẹt bài lúc đêm muộn.
+- **Loại lỗi (hệ thống / người dùng / ngữ cảnh) và vì sao:** **Lỗi ngữ cảnh (Context / Scope Error)**. Học viên và hệ thống đều làm đúng vai trò của mình (học viên muốn dò đáp án để an tâm nộp bài, AI có khả năng tính toán kết quả), nhưng mong muốn của học viên xung đột với mục tiêu giáo dục của khóa học. Thiết kế phải kiên quyết giữ ranh giới nguyên tắc sư phạm nhưng khéo léo dùng câu hỏi gợi mở để hỗ trợ.
 
 **Nguyên tắc HAX/PAIR và phục hồi**
 
-- Nguyên tắc 1 (G1, G2, G8, G9, G10, G11, G15 hoặc PAIR), chỗ áp dụng cụ thể: <nhóm điền>
-- Nguyên tắc 2 (G1, G2, G8, G9, G10, G11, G15 hoặc PAIR), chỗ áp dụng cụ thể: <nhóm điền>
-- [Tuỳ chọn] Nguyên tắc 3 và chỗ áp dụng cụ thể: <nhóm điền>
-- Một lỗi sửa câu chữ không cứu được; thiết kế cứu lỗi đó thế nào: <nhóm điền>
-
+- **Nguyên tắc 1: G2 — Làm rõ hệ thống làm tốt đến đâu (HAX) / Setting Expectations (PAIR):** Áp dụng tại thanh thông báo cố định trên cùng khung chat: `[Bài đang mở: chỉ gợi ý bước đầu]` và nhãn `[Căn cứ giới hạn trong tài liệu buổi 3]`. Thiết lập ranh giới rõ ràng ngay từ đầu để học viên không kỳ vọng AI là công cụ giải bài hộ.
+- **Nguyên tắc 2: G10 — Thu hẹp phạm vi khi nghi ngờ (HAX):** Áp dụng tại Kịch bản #2: Khi phát hiện định lý ở §3.3 có mâu thuẫn toán học, AI không khẳng định liều mạng mà thu hẹp câu trả lời vào trường hợp biên cụ thể (khi phương sai < 1), đồng thời từ chối khẳng định tính tuyệt đối của giáo trình.
+- **Nguyên tắc 3: G11 — Giải thích vì sao hệ thống hành xử như vậy (HAX) / Explainability (PAIR):** Áp dụng tại Kịch bản #5: AI không chỉ từ chối cộc lốc mà giải thích rõ căn cứ: vì Bài tập 3 đang mở (hạn 13/11/2026 23:59), trích dẫn chính xác mục §3.4 và §3.5 làm cơ sở hướng dẫn phương pháp thay vì đưa đáp số.
+- **Một lỗi sửa câu chữ không cứu được; thiết kế cứu lỗi đó thế nào:**
+  - *Lỗi:* AI tự ý hứa hẹn một việc ngoài tầm kiểm soát của mình: *"Mình đã báo TA rồi, bạn đợi chút TA sẽ hỗ trợ ngay"* khi học viên nhắn lúc 23:30 đêm (trong khi khung giờ trực của TA chỉ từ 08:00–22:00).
+  - *Vì sao câu chữ không cứu được:* Dù câu chữ AI có trau chuốt, trấn an khéo léo đến đâu ("đang liên hệ", "sắp có người hỗ trợ"), học viên vẫn sẽ thức chờ vô ích trong thất vọng vì thực tế TA đã hết giờ làm việc.
+  - *Thiết kế cứu lỗi đó:* 
+    1. **Khóa cứng trên giao diện (UI Guardrail):** Kiểm tra đồng hồ máy chủ, nếu ngoài khung giờ `08:00–22:00`, nút `[Chuyển TA]` tự động đổi tên thành `[Gửi câu hỏi vào hàng chờ sáng mai]`.
+    2. **Chặn trạng thái (State Validation):** Chỉ khi API của tool `chuyen_TA` trả về mã thành công `queued`, giao diện mới hiển thị thông báo: *"Đã lưu câu hỏi vào hàng chờ. TA sẽ trả lời sau 08:00 sáng mai"*, loại bỏ hoàn toàn khả năng AI bịa lời hứa hẹn.
 ### §4. Mức tự chủ
 
 > Đặt mức cho từng tool và giải thích theo cost-of-error: ai chịu hậu quả, có đảo lại được không, và người dùng mất gì khi phải chờ.
